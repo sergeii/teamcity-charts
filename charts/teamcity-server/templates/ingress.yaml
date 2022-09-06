@@ -22,7 +22,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "teamcity-server.fullname" . -}}
+                name: {{ include "teamcity-server.fullname" $ }}
                 port:
                   number: {{ $.Values.service.port }}
   {{- end }}

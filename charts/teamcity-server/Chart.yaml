@@ -2,5 +2,5 @@ apiVersion: v2
 name: teamcity-server
 description: A Helm chart for Kubernetes to deploy a TeamCity server
 type: application
-version: 0.2.0
+version: 0.3.0
 appVersion: 2022.04.3
