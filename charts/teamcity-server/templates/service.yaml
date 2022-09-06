@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "teamcity-server.fullname" . }}
+  namespace: {{ include "teamcity-server.namespace" . }}
+  labels:
+    {{- include "teamcity-server.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "teamcity-server.selectorLabels" . | nindent 4 }}

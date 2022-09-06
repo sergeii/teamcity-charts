@@ -1,0 +1,6 @@
+apiVersion: v2
+name: teamcity-cloud-agent-profile
+description: A Helm chart to deploy a service account that is required to set up TeamCity agent Kubernetes cloud profile
+type: application
+version: 0.1.0
+appVersion: 0.1.0

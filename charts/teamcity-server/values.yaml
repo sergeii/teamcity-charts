@@ -1,0 +1,62 @@
+replicas: 1
+
+image:
+  repository: jetbrains/teamcity-server
+  tag: ""
+  sha: ""
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8111
+
+env: {}
+
+ingress:
+  path: /
+  hosts: []
+  annotations: {}
+
+database.properties:
+  connectionUrl: "jdbc:postgresql://127.0.0.1:5432/teamcity"
+  connectionProperties.user: teamcity
+  connectionProperties.password: ""
+  maxConnections: 50
+  testOnBorrow: false
+
+persistence:
+  enabled: false
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  subPath: ""
+  resetOwner: false
+
+readinessProbe: 
+  httpGet:
+    path: /app/rest/version
+    port: 8111
+
+livenessProbe:
+  httpGet:
+    path: /app/rest/version
+    port: 8111
+  initialDelaySeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 10
+
+initImage:
+  repository: busybox
+  tag: "1.31.1"
+  sha: ""
+  pullPolicy: IfNotPresent
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+nameOverride: ""
+namespaceOverride: ""
+fullnameOverride: ""

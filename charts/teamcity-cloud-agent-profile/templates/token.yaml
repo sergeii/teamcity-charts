@@ -1,0 +1,12 @@
+{{- if .Values.serviceAccount.createToken -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "cloud-agent.serviceAccountName" . }}-token
+  namespace: {{ template "cloud-agent.namespace" . }}
+  annotations:
+    kubernetes.io/service-account.name: {{ include "cloud-agent.serviceAccountName" . }}
+  labels:
+    {{- include "cloud-agent.labels" . | nindent 4 }}
+type: kubernetes.io/service-account-token
+{{- end }}

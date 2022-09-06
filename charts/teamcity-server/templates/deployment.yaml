@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "teamcity-server.fullname" . }}
+  namespace: {{ include "teamcity-server.namespace" . }}
+  labels:
+    {{- include "teamcity-server.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "teamcity-server.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "teamcity-server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.securityContext }}
+      securityContext:
+      {{- toYaml .Values.securityContext | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.persistence.enabled .Values.persistence.resetOwner }}
+      initContainers:
+        - name: reset-datadir-owner
+          {{- if .Values.initImage.sha }}
+          image: "{{ .Values.initImage.repository }}:{{ .Values.initImage.tag }}@sha256:{{ .Values.initImage.sha }}"
+          {{- else }}
+          image: "{{ .Values.initImage.repository }}:{{ .Values.initImage.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.initImage.pullPolicy }}
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command:
+            - "chown"
+            - "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}"
+            - "/data/teamcity_server/datadir"
+          volumeMounts:
+            - name: storage
+              mountPath: /data/teamcity_server/datadir
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ tpl .Values.persistence.subPath . }}
+              {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          env:
+{{- range $key, $value := .Values.env }}
+            - name: "{{ tpl $key $ }}"
+              value: "{{ tpl (print $value) $ }}"
+{{- end }}
+          livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 12 }}
+          readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /data/teamcity_server/datadir/config/database.properties
+              subPath: database.properties
+            - name: storage
+              mountPath: /data/teamcity_server/datadir
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ tpl .Values.persistence.subPath . }}
+              {{- end }}
+            - name: logs
+              mountPath: /opt/teamcity/logs
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "teamcity-server.fullname" . }}
+        - name: storage
+          {{- if and .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "teamcity-server.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: logs
+          emptyDir: {}

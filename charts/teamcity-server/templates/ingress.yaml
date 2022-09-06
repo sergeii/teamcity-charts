@@ -1,0 +1,29 @@
+{{- if .Values.ingress.hosts -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "teamcity-server.fullname" . }}
+  namespace: {{ include "teamcity-server.namespace" . }}
+  labels:
+    {{- include "teamcity-server.labels" . | nindent 4 }}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+    {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ tpl $value $ | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ tpl . $}}
+      http:
+        paths:
+          - path: {{ $.Values.ingress.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "teamcity-server.fullname" . -}}
+                port:
+                  number: {{ $.Values.service.port }}
+  {{- end }}
+{{- end }}

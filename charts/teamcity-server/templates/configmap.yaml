@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "teamcity-server.fullname" . }}
+  namespace: {{ include "teamcity-server.namespace" . }}
+  labels:
+    {{- include "teamcity-server.labels" . | nindent 4 }}
+data:
+  database.properties: |
+{{- range $elem, $elemVal := index .Values "database.properties" }}
+    {{- if kindIs "invalid" $elemVal }}
+    {{ $elem }}=
+    {{- else if kindIs "string" $elemVal }}
+    {{ $elem }}={{ tpl $elemVal $ }}
+    {{- else }}
+    {{ $elem }}={{ $elemVal }}
+    {{- end }}
+{{- end }}
