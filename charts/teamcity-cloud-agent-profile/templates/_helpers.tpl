@@ -1,4 +1,4 @@
-{{- define "cloud-agent.namespace" -}}
+{{- define "teamcity-cloud-agent-profile.namespace" -}}
   {{- if .Values.namespaceOverride -}}
     {{- .Values.namespaceOverride -}}
   {{- else -}}
@@ -6,11 +6,11 @@
   {{- end -}}
 {{- end -}}
 
-{{- define "cloud-agent.name" -}}
+{{- define "teamcity-cloud-agent-profile.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "cloud-agent.fullname" -}}
+{{- define "teamcity-cloud-agent-profile.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -23,27 +23,27 @@
 {{- end }}
 {{- end }}
 
-{{- define "cloud-agent.chart" -}}
+{{- define "teamcity-cloud-agent-profile.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "cloud-agent.labels" -}}
-helm.sh/chart: {{ include "cloud-agent.chart" . }}
-{{ include "cloud-agent.selectorLabels" . }}
+{{- define "teamcity-cloud-agent-profile.labels" -}}
+helm.sh/chart: {{ include "teamcity-cloud-agent-profile.chart" . }}
+{{ include "teamcity-cloud-agent-profile.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "cloud-agent.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "cloud-agent.name" . }}
+{{- define "teamcity-cloud-agent-profile.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "teamcity-cloud-agent-profile.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "cloud-agent.serviceAccountName" -}}
+{{- define "teamcity-cloud-agent-profile.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "cloud-agent.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "teamcity-cloud-agent-profile.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

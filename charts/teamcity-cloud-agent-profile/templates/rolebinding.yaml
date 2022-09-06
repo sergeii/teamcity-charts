@@ -1,14 +1,14 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ template "cloud-agent.fullname" . }}
-  namespace: {{ template "cloud-agent.namespace" . }}
+  name: {{ template "teamcity-cloud-agent-profile.fullname" . }}
+  namespace: {{ template "teamcity-cloud-agent-profile.namespace" . }}
   labels:
-    {{- include "cloud-agent.labels" . | nindent 4 }}
+    {{- include "teamcity-cloud-agent-profile.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ template "cloud-agent.fullname" . }}
+  name: {{ template "teamcity-cloud-agent-profile.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "cloud-agent.serviceAccountName" . }}
+    name: {{ include "teamcity-cloud-agent-profile.serviceAccountName" . }}

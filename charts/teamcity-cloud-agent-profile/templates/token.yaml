@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ include "cloud-agent.serviceAccountName" . }}-token
-  namespace: {{ template "cloud-agent.namespace" . }}
+  name: {{ include "teamcity-cloud-agent-profile.serviceAccountName" . }}-token
+  namespace: {{ template "teamcity-cloud-agent-profile.namespace" . }}
   annotations:
-    kubernetes.io/service-account.name: {{ include "cloud-agent.serviceAccountName" . }}
+    kubernetes.io/service-account.name: {{ include "teamcity-cloud-agent-profile.serviceAccountName" . }}
   labels:
-    {{- include "cloud-agent.labels" . | nindent 4 }}
+    {{- include "teamcity-cloud-agent-profile.labels" . | nindent 4 }}
 type: kubernetes.io/service-account-token
 {{- end }}
