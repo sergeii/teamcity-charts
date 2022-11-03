@@ -1,0 +1,12 @@
+{{- if .Values.serviceAccount.createToken -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "teamcity-helm-agent-account.serviceAccountName" . }}-token
+  namespace: {{ template "teamcity-helm-agent-account.namespace" . }}
+  annotations:
+    kubernetes.io/service-account.name: {{ include "teamcity-helm-agent-account.serviceAccountName" . }}
+  labels:
+    {{- include "teamcity-helm-agent-account.labels" . | nindent 4 }}
+type: kubernetes.io/service-account-token
+{{- end }}

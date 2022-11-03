@@ -9,4 +9,4 @@ To learn more about the release, try:
 
 To obtain the token, do:
 
-  $ kubectl kubectl describe secret -n {{ template "teamcity-cloud-agent-profile.namespace" . }} {{ include "teamcity-cloud-agent-profile.serviceAccountName" . }}-token
+  $ kubectl kubectl describe secret -n {{ template "teamcity-helm-agent-account.namespace" . }} {{ include "teamcity-helm-agent-account.serviceAccountName" . }}-token
