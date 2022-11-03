@@ -3,6 +3,17 @@ entries:
   teamcity-cloud-agent-profile:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2022-11-03T00:56:35.01635868Z"
+    description: A Helm chart to deploy a service account that is required to set
+      up TeamCity agent Kubernetes cloud profile
+    digest: fa461419e235309530ae1bf41b7eb8196338c51ed9b725d4983b28cb7a47efaf
+    name: teamcity-cloud-agent-profile
+    type: application
+    urls:
+    - https://github.com/sergeii/teamcity-charts/releases/download/teamcity-cloud-agent-profile-0.1.1/teamcity-cloud-agent-profile-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2022-09-06T21:05:33.404479695Z"
     description: A Helm chart to deploy a service account that is required to set
       up TeamCity agent Kubernetes cloud profile
@@ -11,6 +22,18 @@ entries:
     type: application
     urls:
     - https://github.com/sergeii/teamcity-charts/releases/download/teamcity-cloud-agent-profile-0.1.0/teamcity-cloud-agent-profile-0.1.0.tgz
+    version: 0.1.0
+  teamcity-helm-agent-account:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-11-03T00:56:35.184659758Z"
+    description: A Helm chart to deploy a service account with permissions required
+      to deploy other helm charts
+    digest: cc403aec6805b9a64a8caefd1c95b758dfb239015711c4861aa619763aa09c0d
+    name: teamcity-helm-agent-account
+    type: application
+    urls:
+    - https://github.com/sergeii/teamcity-charts/releases/download/teamcity-helm-agent-account-0.1.0/teamcity-helm-agent-account-0.1.0.tgz
     version: 0.1.0
   teamcity-server:
   - apiVersion: v2
@@ -63,4 +86,4 @@ entries:
     urls:
     - https://github.com/sergeii/teamcity-charts/releases/download/teamcity-server-0.2.0/teamcity-server-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-29T14:19:28.978563736Z"
+generated: "2022-11-03T00:56:35.184685859Z"
