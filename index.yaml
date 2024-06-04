@@ -37,6 +37,16 @@ entries:
     version: 0.1.0
   teamcity-server:
   - apiVersion: v2
+    appVersion: 2024.03.2
+    created: "2024-06-04T18:12:52.038746036Z"
+    description: A Helm chart for Kubernetes to deploy a TeamCity server
+    digest: 04a813a312ba5669ef12dcc7574a5cf1c244978a4223876be97bd4a7780b0d34
+    name: teamcity-server
+    type: application
+    urls:
+    - https://github.com/sergeii/teamcity-charts/releases/download/teamcity-server-0.8.0/teamcity-server-0.8.0.tgz
+    version: 0.8.0
+  - apiVersion: v2
     appVersion: 2023.11.3
     created: "2024-02-04T00:48:50.143231658Z"
     description: A Helm chart for Kubernetes to deploy a TeamCity server
@@ -116,4 +126,4 @@ entries:
     urls:
     - https://github.com/sergeii/teamcity-charts/releases/download/teamcity-server-0.2.0/teamcity-server-0.2.0.tgz
     version: 0.2.0
-generated: "2024-02-04T00:48:50.143268297Z"
+generated: "2024-06-04T18:12:52.038791632Z"
